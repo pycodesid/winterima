@@ -146,7 +146,7 @@ def main():
                 title = type_ + ' ' + type_n + col_,
                 template = 'plotly_dark').update_layout(
                     xaxis_title="Date",
-                    yaxis_title="Mbps",
+                    yaxis_title="Kbps",
                     showlegend = False
                 )
 
@@ -259,7 +259,7 @@ def main():
                                 title = st.session_state.title,
                                 template = 'plotly_dark').update_layout(
                                     xaxis_title="Date",
-                                    yaxis_title="Mbps",
+                                    yaxis_title="Kbps",
                                 )
 
                     st.plotly_chart(fig, use_container_width=True)
@@ -294,7 +294,7 @@ def main():
                                 title = title,
                                 template = 'plotly_dark').update_layout(
                                     xaxis_title="Date",
-                                    yaxis_title="Mbps",
+                                    yaxis_title="Kbps",
                                 )
 
                     st.plotly_chart(fig, use_container_width=True)
@@ -322,7 +322,7 @@ def main():
                         title = st.session_state.title,
                         template = 'plotly_dark').update_layout(
                             xaxis_title="Date",
-                            yaxis_title="Mbps",
+                            yaxis_title="Kbps",
                         )
 
             st.plotly_chart(fig, use_container_width=True)
@@ -344,7 +344,7 @@ def main():
                         title = st.session_state.title,
                         template = 'plotly_dark').update_layout(
                             xaxis_title="Date",
-                            yaxis_title="Mbps",
+                            yaxis_title="Kbps",
                         )
 
             st.plotly_chart(fig, use_container_width=True)
