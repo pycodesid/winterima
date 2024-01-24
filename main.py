@@ -116,23 +116,28 @@ def main():
             lay_ = [item[1] for item in split_cols if item[0] == loc]
             lay_ = np.array(lay_)
             lay_ = np.unique(lay_)
-            lay = st.selectbox("Pilih Layanan", sorted(lay_))
+            lay = lay_[0]
+          #   lay = st.selectbox("Pilih Layanan", sorted(lay_))
 
             lin_ = [item[2] for item in split_cols if (item[0] == loc and item[1] == lay)]
             lin_ = np.array(lin_)
             lin_ = np.unique(lin_)
-            lin = st.selectbox("Pilih Link", lin_)
+            lin = lin_[0]
+          #   lin = st.selectbox("Pilih Link", lin_)
 
             ban_ = [item[3] for item in split_cols if (item[0] == loc and item[1] == lay and item[2] == lin)]
             ban_ = np.array(ban_)
             ban_ = np.unique(ban_)
             ban_ = sorted(ban_)
-            ban = st.selectbox("Pilih Bandwidth", ban_)
+            ban = ban_[0]
+          #   ban = st.selectbox("Pilih Bandwidth", ban_)
 
             col_ = loc + '__' + lay + '__' + lin + '__' + str(ban)
 
-            type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
-            type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
+          #   type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
+            type_ = "Receiver"
+            type_n = "Peak"
+          #   type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
             num = 0
             if st.button("Import Timeseries"):
                 if type_ + ' ' + type_n == 'Peak Transmit':
@@ -217,23 +222,28 @@ def main():
             lay_ = [item[1] for item in split_cols if item[0] == loc]
             lay_ = np.array(lay_)
             lay_ = np.unique(lay_)
-            lay = st.selectbox("Pilih Layanan", sorted(lay_))
+            lay = lay_[0]
+          #   lay = st.selectbox("Pilih Layanan", sorted(lay_))
 
             lin_ = [item[2] for item in split_cols if (item[0] == loc and item[1] == lay)]
             lin_ = np.array(lin_)
             lin_ = np.unique(lin_)
-            lin = st.selectbox("Pilih Link", lin_)
+            lin = lin_[0]
+          #   lin = st.selectbox("Pilih Link", lin_)
 
             ban_ = [item[3] for item in split_cols if (item[0] == loc and item[1] == lay and item[2] == lin)]
             ban_ = np.array(ban_)
             ban_ = np.unique(ban_)
             ban_ = sorted(ban_)
-            ban = st.selectbox("Pilih Bandwidth", ban_)
+            ban = ban_[0]
+          #   ban = st.selectbox("Pilih Bandwidth", ban_)
 
             col_ = loc + '__' + lay + '__' + lin + '__' + str(ban)
 
-            type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
-            type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
+          #   type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
+          #   type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
+            type_ = "Receiver"
+            type_n = "Peak"
             num = 0
 
             if 'pilih_data_latih' not in st.session_state:
@@ -300,7 +310,8 @@ def main():
                     st.session_state.lanjut_transform = 1
             
             if st.session_state.lanjut_transform == 1:
-                st.session_state.opt_tr = st.selectbox("Pilih Metode Transformasi", ["Log Scale"])
+               #  st.session_state.opt_tr = st.selectbox("Pilih Metode Transformasi", ["Log Scale"])
+                st.session_state.opt_tr = "Log Scale"
 
                 if st.session_state.opt_tr == "Log Scale":
                     st.write("Log Scale")
@@ -324,7 +335,7 @@ def main():
                     title = 'Log Scale Plot',
                     template = 'plotly_dark').update_layout(
                         xaxis_title="Date",
-                        yaxis_title="Kbps",
+                        yaxis_title="Log",
                         showlegend = False
                     )
 
@@ -334,16 +345,43 @@ def main():
                     movingSTD = datasetLogScaleMinusMovingAverage.rolling(window=12).std()
 
                     # timeseries plot
-                    fig = px.line(movingAverage,
-                    x=movingAverage.index,
-                    y=movingAverage.values,
-                    title = 'Moving Average vs Moving STD',
-                    template = 'plotly_dark').update_layout(
-                        xaxis_title="Date",
-                        yaxis_title="Kbps",
-                        showlegend = False
-                    )
-                    fig.add_scatter(x=movingSTD.index, y=movingSTD.values, mode='lines')
+                    import plotly.graph_objects as go
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(
+                         x=movingAverage.index,
+                         y=movingAverage.values,
+                         name="Moving AVG",
+                    ))
+
+                    fig.add_trace(go.Scatter(
+                         x=movingSTD.index,
+                         y=movingSTD.values,
+                         name="Moving STD",
+                    ))
+
+                    fig.update_layout(
+                         title="Moving AVG vs Moving STD",
+                         xaxis_title="Date",
+                         yaxis_title="Log",
+                         legend_title="Legend",
+                         font=dict(
+                              family="Courier New, monospace",
+                              size=18,
+                              color="RebeccaPurple"
+                         )
+                         )
+
+
+                    # fig = px.line(movingAverage,
+                    # x=movingAverage.index,
+                    # y=movingAverage.values,
+                    # title = 'Moving Average vs Moving STD',
+                    # template = 'plotly_dark').update_layout(
+                    #     xaxis_title="Date",
+                    #     yaxis_title="Log",
+                    #     showlegend = True
+                    # )
+                    # fig.add_scatter(x=movingSTD.index, y=movingSTD.values, mode='lines')
 
                     st.plotly_chart(fig, use_container_width=True)
 
@@ -523,23 +561,28 @@ def main():
             lay_ = [item[1] for item in split_cols if item[0] == loc]
             lay_ = np.array(lay_)
             lay_ = np.unique(lay_)
-            lay = st.selectbox("Pilih Layanan", sorted(lay_))
+            lay = lay_[0]
+          #   lay = st.selectbox("Pilih Layanan", sorted(lay_))
 
             lin_ = [item[2] for item in split_cols if (item[0] == loc and item[1] == lay)]
             lin_ = np.array(lin_)
             lin_ = np.unique(lin_)
-            lin = st.selectbox("Pilih Link", lin_)
+            lin = lin_[0]
+          #   lin = st.selectbox("Pilih Link", lin_)
 
             ban_ = [item[3] for item in split_cols if (item[0] == loc and item[1] == lay and item[2] == lin)]
             ban_ = np.array(ban_)
             ban_ = np.unique(ban_)
             ban_ = sorted(ban_)
-            ban = st.selectbox("Pilih Bandwidth", ban_)
+            ban = ban_[0]
+          #   ban = st.selectbox("Pilih Bandwidth", ban_)
 
             col_ = loc + '__' + lay + '__' + lin + '__' + str(ban)
 
-            type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
-            type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
+          #   type_ = st.selectbox("Pilih Transmiter atau Receiver", ["Transmiter", "Receiver"])
+          #   type_n = st.selectbox("Pilih Peak atau Average", ["Peak", "Average"])
+            type_ = "Receiver"
+            type_n = "Peak"
             num = 0
 
             if 'pilih_data_latih' not in st.session_state:
